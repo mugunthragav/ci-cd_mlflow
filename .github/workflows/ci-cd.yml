@@ -24,3 +24,4 @@ jobs:
         docker tag my-mlflow-app mugunthragav/my-mlflow-app:latest
         docker push mugunthragav/my-mlflow-app:latest
 
+
