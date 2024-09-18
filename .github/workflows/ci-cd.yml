@@ -1,15 +1,13 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
-    services:
-      docker:
-        image: docker:20.10.7
-        options: --privileged  # Run with privileged access
-        ports:
-          - 2375:2375
-        volumes:
-          - /var/run/docker.sock:/var/run/docker.sock
 
     steps:
     - name: Checkout code
@@ -21,7 +19,11 @@ jobs:
     - name: Build Docker image
       run: |
         docker build -t my-mlflow-app .
-        docker tag my-mlflow-app mugunthragav/my-mlflow-app:latest
+        docker tag my-mlflow-app:latest mugunthragav/my-mlflow-app:latest
+
+    - name: Push Docker image to Docker Hub
+      run: |
         docker push mugunthragav/my-mlflow-app:latest
+
 
 
