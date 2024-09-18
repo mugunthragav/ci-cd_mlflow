@@ -24,6 +24,3 @@ jobs:
     - name: Push Docker image to Docker Hub
       run: |
         docker push mugunthragav/my-mlflow-app:latest
-
-
-
