@@ -9,6 +9,15 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+    services:
+      docker:
+        image: docker:20.10.7
+        options: --privileged  # Run with privileged access
+        ports:
+          - 2375:2375
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -27,8 +36,3 @@ jobs:
     - name: Push Docker image to Docker Hub (without login)
       run: |
         docker push mugunthragav/my-mlflow-app:latest
-
-    - name: Verify Docker image
-      run: |
-        docker pull mugunthragav/my-mlflow-app:latest
-        docker images
