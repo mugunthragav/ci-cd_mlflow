@@ -16,9 +16,9 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
-    - name: Build Docker image
+    - name: Build Docker image with BuildKit
       run: |
-        docker build -t my-mlflow-app .
+        DOCKER_BUILDKIT=1 docker build -t my-mlflow-app .
         docker tag my-mlflow-app:latest mugunthragav/my-mlflow-app:latest
 
     - name: Push Docker image to Docker Hub
