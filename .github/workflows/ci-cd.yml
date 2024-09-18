@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI/CD Pipeline for MLFlow App
 
 on:
   push:
@@ -13,14 +13,25 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-
-    - name: Build Docker image with BuildKit
+    - name: Install Docker
       run: |
-        DOCKER_BUILDKIT=1 docker build -t my-mlflow-app .
-        docker tag my-mlflow-app:latest mugunthragav/my-mlflow-app:latest
+        sudo apt-get update
+        sudo apt-get install docker.io
+
+    - name: Build Docker image
+      run: |
+        docker build -t my-mlflow-app .
+
+    - name: Tag Docker image
+      run: |
+        docker tag my-mlflow-app mugunthragav/my-mlflow-app:latest
 
     - name: Push Docker image to Docker Hub
       run: |
         docker push mugunthragav/my-mlflow-app:latest
+
+    - name: Verify Docker image
+      run: |
+        docker pull mugunthragav/my-mlflow-app:latest
+        docker images
+
